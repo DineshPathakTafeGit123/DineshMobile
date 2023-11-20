@@ -9,8 +9,22 @@ import Settings from '../constants/Settings';
 import { TextParagraph, TextH1, TextH2, TextH3, TextListItem } from "../components/StyledText";
 import Styles from "../styles/MainStyle";
 import Colours from '../constants/Colours';
+import { MyButton } from '../components/MyButton';
 
 export default function HelpScreen(props) {
+
+  const [fontSizeModifier, setFontSizeModifier]=React.useState(Settings.fontSizeModifier);
+
+  function changeFontSize(sizeModifier){
+    Settings.fontSizeModifier += sizeModifier;
+    setFontSizeModifier(Settings.fontSizeModifier)
+  }
+  
+  function pr(a){
+    console.log(a);
+  }
+
+  const change = (a)=>{ console.log(a) };
 
   return (
     <SafeAreaView style={Styles.safeAreaView}>
@@ -19,6 +33,26 @@ export default function HelpScreen(props) {
         <View>
           
           <TextH1 style={{marginTop:0}}>Help topics</TextH1>
+
+          <TextH3>Font Size</TextH3>          
+
+          <View style={Styles.helpButtonContainer}>
+            <MyButton
+            text="- Smaller"
+            type="default"
+            size="medium"
+            onPress={()=>{changeFontSize(-0.1)}}
+            buttonStyle={Styles.helpButton}
+            />
+            <MyButton
+            text="+ Bigger"
+            type="default"
+            size="medium"
+            onPress={()=>{changeFontSize(+0.1)}}
+            buttonStyle={Styles.helpButton}
+            />
+
+          </View>
 
           <TextH2>Sample content</TextH2>
 
