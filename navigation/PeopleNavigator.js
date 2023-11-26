@@ -1,4 +1,3 @@
-// import { createStackNavigator } from '@react-navigation/stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 
@@ -8,7 +7,8 @@ import ViewPeopleScreen from '../screens/ViewPeopleScreen';
 // Import styling and components
 import Styles from "../styles/MainStyle";
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function PeopleNavigator() {
   return (
