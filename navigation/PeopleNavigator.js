@@ -12,6 +12,8 @@ const Stack = createNativeStackNavigator();
 
 // Import page
 import EditPersonScreen from '../screens/EditPersonScreen';
+import ViewPersonScreen from '../screens/ViewPersonScreen';
+import { imageIndex } from '../constants/images';
 
 
 export default function PeopleNavigator() {
@@ -27,7 +29,11 @@ export default function PeopleNavigator() {
       <Stack.Screen
         name="ViewPeople"
         component={ViewPeopleScreen}
-        options={{ title: 'View All People' }} />
+        options={{ title: 'View All Staff' }} />
+      <Stack.Screen
+        name="ViewPerson"
+        component={ViewPersonScreen}
+        options={{ title: 'View person' }} />
       <Stack.Screen
         name="EditPerson"
         component={EditPersonScreen}

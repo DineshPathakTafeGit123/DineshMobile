@@ -20,6 +20,7 @@ import NetInfo from '@react-native-community/netinfo';
 import ViewPersonScreen from '../screens/ViewPersonScreen';
 
 
+
 export default function ViewPeopleScreen(props) {
 const stack = createNativeStackNavigator();
 
@@ -48,7 +49,6 @@ const stack = createNativeStackNavigator();
       .catch(error => {
         PopupOk("API Error", "Could not get people from the server")
       })
-
   }
 
   // function showAddPerson() {
