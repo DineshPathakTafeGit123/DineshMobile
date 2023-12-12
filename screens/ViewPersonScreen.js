@@ -12,6 +12,29 @@ import { TextParagraph, TextH1, TextH2, TextLabel } from '../components/StyledTe
 import Styles from '../styles/MainStyle';
 import { MyButton } from '../components/MyButton';
 
+// Added import lines
+import ViewPersonScreen from '../screens/ViewPersonScreen';
+import EditPersonScreen from '../screens/EditPersonScreen';
+
+// Replace PeopleNavigator Function
+export default function PeopleNavigator() {
+  return (
+    <Stack.Navigator
+      initialRouteName="ViewPeople"
+      screenOptions={{
+        headerShown: true,
+        headerBackTitle: 'Back',
+        headerStyle: Styles.headerBar,
+        headerTitleStyle: Styles.headerBarTitle,
+      }}
+    >
+      <Stack.Screen name="ViewPeople" component={ViewPeopleScreen} options={{ title: 'View All People' }} />
+      <Stack.Screen name="ViewPerson" component={ViewPersonScreen} options={{ title: 'View Person' }} />
+      <Stack.Screen name="EditPerson" component={EditPersonScreen} options={{ title: 'Edit Person' }} />
+    </Stack.Navigator>
+  );
+}
+
 
 export default function ViewPersonScreen(props) {
   // Set up a default Person object
@@ -101,12 +124,51 @@ export default function ViewPersonScreen(props) {
   }
 
   // Main output of the screen component
-  return (
+  // Main output of the screen component
+return (
     <SafeAreaView style={Styles.safeAreaView}>
       <ScrollView style={Styles.container} contentContainerStyle={Styles.contentContainer}>
         <TextH1 style={{ marginTop: 0 }}>Person: {person.name}</TextH1>
 
+        <View style={Styles.form}>
+          <View style={Styles.fieldSet}>
+            <TextParagraph style={Styles.legend}>Details</TextParagraph>
 
+            {/* Add Name, Phone here */}
+
+            <View style={Styles.formRow}>
+              <TextLabel>Department:</TextLabel>
+              <TextParagraph>{person.department ? person.department.name : '---'}</TextParagraph>
+              {/* <TextParagraph>{person.department?.name ?? '<NONE>'}</TextParagraph> */}
+            </View>
+          </View>
+
+          <View style={Styles.fieldSet}>
+            <TextParagraph style={Styles.legend}>Address</TextParagraph>
+
+            <View style={Styles.formRow}>
+              <TextLabel>Street:</TextLabel>
+              <TextParagraph>{person.street}</TextParagraph>
+            </View>
+
+            {/* Add City, State, Zip, Country here */}
+          </View>
+        </View>
+
+        <View style={[Styles.personButtonContainer, { borderBottomWidth: 0 }]}>
+          <MyButton
+            text="Edit"
+            type="major" // default*|major|minor
+            size="medium" // small|medium*|large
+            onPress={showEditPerson}
+          />
+          <MyButton
+            text="Delete"
+            type="default" // default*|major|minor
+            size="medium" // small|medium*|large
+            onPress={deletePerson}
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

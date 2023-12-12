@@ -56,9 +56,15 @@ export default function HomeScreen(props) {
             size="large"      // small|medium*|large
             buttonStyle={Styles.homeButton}
             onPress={showHelp}
-          />
+          />          
+        </View>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+            <Text style={{ color: 'lightgray', fontSize: 14 }}>Developed by</Text>
+            <Text style={{ fontSize: 18 }}>Dinesh Pathak</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
+    
+    
   );
 }

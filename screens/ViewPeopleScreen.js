@@ -1,22 +1,27 @@
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { infoMessage } from '../utils/flashMessage';
-import NetInfo from '@react-native-community/netinfo';
 
 // Import helper code
 import Settings from '../constants/Settings';
-import { RoiDeletePerson, RoiGetPeople } from '../utils/RoiApi';
-import { PopupOk, PopupOkCancel } from "../utils/Popup";
 
 // Import styling and components
 import { TextParagraph, TextH1, TextH2 } from "../components/StyledText";
 import Styles from "../styles/MainStyle";
 import { MyButton } from '../components/MyButton';
+
+// Update import
+import { RoiDeletePerson, RoiGetPeople } from '../utils/RoiApi';
+import { PopupOk, PopupOkCancel } from '../utils/Popup';
 import { ButtonContainer } from '../components/ButtonContainer';
+import NetInfo from '@react-native-community/netinfo';
+import ViewPersonScreen from '../screens/ViewPersonScreen';
 
 
 export default function ViewPeopleScreen(props) {
+const stack = createNativeStackNavigator();
 
   // State - data for this component
 
@@ -46,21 +51,21 @@ export default function ViewPeopleScreen(props) {
 
   }
 
-  function showAddPerson() {
-    // Navigate to AddPerson and replace the current screen
-    props.navigation.replace('Root', { screen: 'AddPerson' });
-  }
-
+  // function showAddPerson() {
+  //   // Navigate to AddPerson and replace the current screen
+  //   props.navigation.replace('Root', { screen: 'AddPerson' });
+  // }
+  
   function showViewPerson(person) {
     // Navigate to ViewPerson and pass through the person's ID as a param
     props.navigation.navigate('ViewPerson', { id: person.id });
   }
-
+  
   function showEditPerson(person) {
     // Navigate to EditPerson and pass through the person's ID as a param
     props.navigation.navigate('EditPerson', { id: person.id });
   }
-
+  
   /**
    * Delete a person from the database
    * @param {Person} person The person to delete.
@@ -71,7 +76,7 @@ export default function ViewPeopleScreen(props) {
       // Title and message
       'Delete person?',
       `Are you sure you want to delete ${person.name}`,
-
+  
       // 0K - delete the person
       () => {
         // Delete the person using the API
@@ -94,7 +99,7 @@ export default function ViewPeopleScreen(props) {
       }
     );
   }
-
+  
   // Display flash message banner if offline
   function displayConnectionMessage() {
     console.log('displayConnectionMessage');
@@ -110,46 +115,53 @@ export default function ViewPeopleScreen(props) {
 
   // Display all people data
   function displayPeople() {
-    
-    // Loop through each item and turn into appropriate output and then return the result
-    return people.map(p => {
+    // Display flash message when there's a connection issue
+    displayConnectionMessage();
 
+    // Cancel if no people to display
+    if (!people) return;
+
+    // Loop through each item and turn into appropriate output and then return the result
+    return people.map((p) => {
       // Create an output view for each item
       return (
         <View key={p.id} style={Styles.dataContainerHorizontal}>
           <View style={Styles.personListItemDetails}>
-            <TextParagraph>{p.name}</TextParagraph>
-            <TextParagraph>{p.department?.name ?? '---'}</TextParagraph>
-            <TextParagraph>{p.phone}</TextParagraph>
-          </View>        
-          <ButtonContainer direction="column"> 
-              <MyButton
-              text="Info"
-              type="major"
-              size="small"
+            <TextParagraph style={Styles.personListItemName}>{p.name}</TextParagraph>
+            <TextParagraph style={Styles.personListItemText}>{p.department?.name ?? '---'}</TextParagraph>
+            <TextParagraph style={Styles.personListItemText}>{p.phone}</TextParagraph>
+          </View>
+          <ButtonContainer direction="column">
+            {/* <View style={Styles.personListItemButtons}> */}
+            <MyButton
+              text="info"
+              type="major" // default*|major|minor
+              size="small" // small|medium*|large
               buttonStyle={Styles.personListItemButton}
               textStyle={Styles.personListItemButtonText}
-              />
-              <MyButton
+              onPress={() => showViewPerson(p)}
+            />
+            <MyButton
               text="Edit"
-              type="default"
-              size="small"
+              type="default" // default*|major|minor
+              size="small" // small|medium*|large
               buttonStyle={Styles.personListItemButton}
               textStyle={Styles.personListItemButtonText}
-              />
-              <MyButton
+              onPress={() => showEditPerson(p)}
+            />
+            <MyButton
               text="Delete"
-              type="minor"
-              size="small"
+              type="minor" // default*|major|minor
+              size="small" // small|medium*|large
               buttonStyle={Styles.personListItemButton}
               textStyle={Styles.personListItemButtonText}
-              />
+              onPress={() => deletePerson(p)}
+            />
+            {/* </View> */}
           </ButtonContainer>
         </View>
-      )
-
-    })
-    
+      );
+    });
   }
 
 
@@ -158,12 +170,7 @@ export default function ViewPeopleScreen(props) {
     <SafeAreaView style={Styles.safeAreaView}>
       
       <View style={Styles.personButtonContainer}>
-        <MyButton 
-          text="+ Add new person"
-          type="major"      // default*|major|minor
-          size="small"      // small|medium*|large
-          onPress={showAddPerson}
-        />
+        
         <MyButton 
           text="Refresh"
           type="default"    // default*|major|minor
