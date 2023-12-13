@@ -32,7 +32,7 @@ export default function HelpScreen(props) {
 
         <View>
           
-          <TextH1 style={{marginTop:0}}>Help topics</TextH1>
+          <TextH1 style={{marginTop:0}}>Help</TextH1>
 
           <TextH3>Font Size</TextH3>          
 
@@ -72,12 +72,12 @@ export default function HelpScreen(props) {
           <TextListItem>TextListItem - bullet list item</TextListItem>
           <TextListItem>TextLabel - form label (inline with input)</TextListItem>
 
-          <TextH2>Wanna go home?</TextH2>
+          {/* <TextH2>Wanna go home?</TextH2>
 
           <Pressable onPress={() => props.navigation.replace('Root')}>
             <TextParagraph style={{marginVertical: 10, color: Colours.tabLabelSelected}}>Click here to go home...</TextParagraph>
-          </Pressable>
-
+          </Pressable> */}
+          <TextParagraph>{'\n'}</TextParagraph>
         </View>
       </ScrollView>
     </SafeAreaView>
